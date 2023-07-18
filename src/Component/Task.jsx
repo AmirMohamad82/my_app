@@ -4,9 +4,10 @@ import i3 from "./../images/images (1).jpg";
 import i4 from "./../images/images (2).jpg";
 import i1 from "./../images/download.jpg";
 import Date from "./Date";
+import axios from "axios";
 
 const Task = ({ task, onDelete }) => {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState(task.done);
   let dv = "dv";
   let Class = "text-dark ";
   let tasks = "task";
@@ -24,7 +25,17 @@ const Task = ({ task, onDelete }) => {
   };
 
   const checked = () => {
+    if(window.localStorage.getItem("id") !== task.userId){
+      return
+    }
     task.done = !task.done;
+    axios.patch(`http://localhost:4000/todos/${task.id}`,{
+      done : task.done
+    },{
+      headers: {
+        Authorization: "Bearer " + window.localStorage.getItem("token"),
+      },
+    })
     setState(!state);
   };
 

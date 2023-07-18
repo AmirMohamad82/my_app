@@ -17,24 +17,50 @@ const App = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://localhost:4000/todos",{
+    axios
+      .get("http://localhost:4000/todos", {
         headers: {
-          'Authorization':  "Bearer " + window.localStorage.getItem("token")
-        }
-      }
-     ).then((res) => {
-      setTasks(res.data);
-      setLoading(false);
-    });
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setTasks(res.data);
+        setLoading(false);
+      });
   }, []);
 
   const addTask = (task) => {
-    const id = Math.floor(Math.random() * 10000);
-    const newTask = { id, ...task };
-    setTasks([newTask, ...tasks]);
+    const userId = window.localStorage.getItem("id");
+    const owner = userId;
+    const newTask = { userId, owner, ...task };
+    axios
+      .post(
+        "http://localhost:4000/todos",
+        {
+          userId: newTask.userId,
+          owner: newTask.owner,
+          title: newTask.title,
+          description: newTask.description,
+          date: newTask.unixTime,
+          done: newTask.done,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + window.localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((res) => {
+        setTasks([...tasks, res.data]);
+      });
   };
 
   const deleteTask = (id) => {
+    axios.delete(`http://localhost:4000/todos/${id}`, {
+      headers: {
+        Authorization: "Bearer " + window.localStorage.getItem("token"),
+      },
+    });
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
