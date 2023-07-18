@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { BiTrash } from "react-icons/bi";
-import i3 from "./../images/images (1).jpg";
-import i4 from "./../images/images (2).jpg";
-import i1 from "./../images/download.jpg";
-import Date from "./Date";
+import i3 from "./../../images/images (1).jpg";
+import i4 from "./../../images/images (2).jpg";
+import i1 from "./../../images/download.jpg";
+import Date from "../ConvertDate/Date";
 import axios from "axios";
 
 const Task = ({ task, onDelete }) => {
@@ -25,17 +25,21 @@ const Task = ({ task, onDelete }) => {
   };
 
   const checked = () => {
-    if(window.localStorage.getItem("id") !== task.userId){
-      return
+    if (window.localStorage.getItem("id") !== task.userId) {
+      return;
     }
     task.done = !task.done;
-    axios.patch(`http://localhost:4000/todos/${task.id}`,{
-      done : task.done
-    },{
-      headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+    axios.patch(
+      `http://localhost:4000/todos/${task.id}`,
+      {
+        done: task.done,
       },
-    })
+      {
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+        },
+      }
+    );
     setState(!state);
   };
 
@@ -89,7 +93,9 @@ const Task = ({ task, onDelete }) => {
           </div>
         </div>
         <div className="row">
-          <div className="date col-7"><Date date={task.date}/></div>
+          <div className="date col-7">
+            <Date date={task.date} />
+          </div>
           <div className="people tdr col-5">
             {people?.map((item, index) => (
               <div

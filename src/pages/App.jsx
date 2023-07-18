@@ -1,15 +1,10 @@
-import Navbar from "./Navbar";
-import Table from "./Table";
-import Tasks from "./Tasks";
-import State from "./State";
+import Navbar from "../Component/Navbar/Navbar";
+import Table from "../Component/Table/Table";
+import Tasks from "../Component/TaskCard/Tasks";
+import State from "../Component/Table/State";
 import { useEffect, useState } from "react";
-// import i1 from "./../images/download.jpg";
-// import i2 from "./../images/download.png";
-// import i3 from "./../images/images (1).jpg";
-// import i4 from "./../images/images (2).jpg";
-// import i5 from "./../images/images.jpg";
 import axios from "axios";
-import Loading from "./Loading";
+import Loading from "../Component/Loading/Loading";
 
 const App = () => {
   const [loading, setLoading] = useState(true);

@@ -1,5 +1,5 @@
-import styled from '../style/Error.module.css'
-import { Outlet,Link } from "react-router-dom";
+import styled from "../style/Error.module.css";
+import { Outlet, Link } from "react-router-dom";
 
 const ErrorNotFound = () => {
   return (
@@ -9,7 +9,7 @@ const ErrorNotFound = () => {
         <div className={styled.page}>
           Ooops!!! The page you are looking for is not found
         </div>
-        <Link to="/"  className={styled.backHome}>
+        <Link to="/" className={styled.backHome}>
           Back to home
         </Link>
       </div>

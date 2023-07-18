@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
-import NavbarHome from "./NavbarHome";
+import NavbarHome from "../Component/Navbar/NavbarHome";
 import axios from "axios";
 
 const SignUp = () => {
@@ -14,9 +14,9 @@ const SignUp = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log("test");
-    if(signup.password !== signup.repeatPassword){
-        alert("The password entered does not match its repetition")
-        return
+    if (signup.password !== signup.repeatPassword) {
+      alert("The password entered does not match its repetition");
+      return;
     }
     axios
       .post("http://localhost:4000/register", {

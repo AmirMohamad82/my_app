@@ -1,12 +1,12 @@
 import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import App from "./Component/App";
-import Login from "./Component/Login";
-import Layout from "./Component/Layout";
-import SignUp from "./Component/SignUp";
+import App from "./pages/App";
+import Login from "./pages/Login";
+import Layout from "./pages/Layout";
+import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/index.css";
-import ErrorNotFound from "./Component/ErrorNotFound";
+import ErrorNotFound from "./pages/ErrorNotFound";
 
 const Index = () => {
   return (
