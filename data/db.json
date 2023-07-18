@@ -1,0 +1,40 @@
+{
+  "users": [
+    {
+      "email": "test@test.com",
+      "password": "$2a$10$o8pOIv3k7QI3M1FXaqua8OVRmrPA1CdO/LvcdtWB/DSU.LgfDuBZK",
+      "id": 1
+    },
+    {
+      "email": "havij@havijPolo.com",
+      "password": "$2a$10$tf5Kczf1iWJyftIluvT4ReoSX6.loAPkTP9hEZzLxg0JqBK.wauCS",
+      "id": 2
+    }
+  ],
+  "todos": [
+    {
+      "userId": 1,
+      "title": "todo4",
+      "description": "todo4",
+      "date": 1689184015,
+      "done": false,
+      "id": 4
+    },
+    {
+      "userId": 1,
+      "title": "todo5",
+      "description": "todo5",
+      "date":1689184015,
+      "done": false,
+      "id": 5
+    },
+    {
+      "userId": 1,
+      "title": "todo6",
+      "description": "todo6",
+      "date": 1689236477,
+      "done": false,
+      "id": 6
+    }
+  ]
+}
