@@ -26,7 +26,8 @@ const App = () => {
       .then((res) => {
         setTasks(res.data);
         setLoading(false);
-      });
+      })
+      .catch(alert);
   }, []);
 
   const addTask = (task) => {
