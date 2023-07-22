@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
-import NavbarHome from "../Component/Navbar/NavbarHome";
+import NavbarHome from "../Components/Navbar/NavbarHome";
 import axios from "axios";
 
 const SignUp = () => {

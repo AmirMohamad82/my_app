@@ -1,4 +1,4 @@
-import styled from "../style/Error.module.css";
+import styled from "../Style/Error.module.css";
 import { Outlet, Link } from "react-router-dom";
 
 const ErrorNotFound = () => {

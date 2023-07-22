@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { BiTrash } from "react-icons/bi";
-import i3 from "./../../images/images (1).jpg";
-import i4 from "./../../images/images (2).jpg";
-import i1 from "./../../images/download.jpg";
+import i3 from "./../../Images/images (1).jpg";
+import i4 from "./../../Images/images (2).jpg";
+import i1 from "./../../Images/download.jpg";
 import Date from "../ConvertDate/Date";
 import axios from "axios";
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import NavbarHome from "../Component/Navbar/NavbarHome";
+import NavbarHome from "../Components/Navbar/NavbarHome";
 
 const Login = () => {
   const navigate = useNavigate();

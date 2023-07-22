@@ -1,4 +1,4 @@
-import img from "./../../images/original-ad4e884d50300577dd5b8745d51b0364.webp";
+import img from "./../../Images/original-ad4e884d50300577dd5b8745d51b0364.webp";
 
 const Home = () => {
   return (

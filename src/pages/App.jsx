@@ -1,10 +1,10 @@
-import Navbar from "../components/Navbar/Navbar";
-import Table from "../components/Table/Table";
-import Tasks from "../components/TaskCard/Tasks";
-import State from "../components/Table/State";
+import Navbar from "../Components/Navbar/Navbar";
+import Table from "../Components/Table/Table";
+import Tasks from "../Components/TaskCard/Tasks";
+import State from "../Components/Table/State";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loading from "../components/Loading/Loading";
+import Loading from "../Components/Loading/Loading";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {
