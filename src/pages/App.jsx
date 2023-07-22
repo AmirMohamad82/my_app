@@ -1,17 +1,24 @@
-import Navbar from "../Component/Navbar/Navbar";
-import Table from "../Component/Table/Table";
-import Tasks from "../Component/TaskCard/Tasks";
-import State from "../Component/Table/State";
+import Navbar from "../components/Navbar/Navbar";
+import Table from "../components/Table/Table";
+import Tasks from "../components/TaskCard/Tasks";
+import State from "../components/Table/State";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loading from "../Component/Loading/Loading";
+import Loading from "../components/Loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
+    if (!window.localStorage.getItem("token")) {
+      alert("You are not logged in. Please login first");
+      navigate("/login");
+      return;
+    }
     axios
       .get("http://localhost:4000/todos", {
         headers: {
@@ -20,13 +27,15 @@ const App = () => {
       })
       .then((res) => {
         setTasks(res.data);
-        setLoading(false);
       })
-      .catch(alert);
-  }, []);
+      .catch(() => {
+        alert("You don't have a task to show, so add a task first");
+      });
+    setLoading(false);
+  }, [navigate]);
 
   const addTask = (task) => {
-    const userId = window.localStorage.getItem("id");
+    const userId = Number(window.localStorage.getItem("id"));
     const owner = userId;
     const newTask = { userId, owner, ...task };
     axios
@@ -51,13 +60,20 @@ const App = () => {
       });
   };
 
-  const deleteTask = (id) => {
-    axios.delete(`http://localhost:4000/todos/${id}`, {
-      headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
-      },
-    });
-    setTasks(tasks.filter((task) => task.id !== id));
+  const deleteTask = (task) => {
+    if (Number(window.localStorage.getItem("id")) !== task.userId) {
+      alert("This task is not for you");
+      return;
+    }
+    axios
+      .delete(`http://localhost:4000/todos/${task.id}`, {
+        headers: {
+          Authorization: "Bearer " + window.localStorage.getItem("token"),
+        },
+      })
+      .then(() => {
+        setTasks(tasks.filter((tasks) => tasks.id !== task.id));
+      });
   };
 
   return (

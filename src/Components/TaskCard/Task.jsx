@@ -25,7 +25,8 @@ const Task = ({ task, onDelete }) => {
   };
 
   const checked = () => {
-    if (window.localStorage.getItem("id") !== task.userId) {
+    if (Number(window.localStorage.getItem("id")) !== task.userId) {
+      alert("This task is not for you");
       return;
     }
     task.done = !task.done;
@@ -71,7 +72,7 @@ const Task = ({ task, onDelete }) => {
                   marginRight: "10px",
                   float: "right",
                 }}
-                onClick={() => onDelete(task.id)}
+                onClick={() => onDelete(task)}
               />
               {state ? (
                 <input
