@@ -1,39 +1,20 @@
-import axios from "axios";
-import { useState } from "react";
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import NavbarHome from "../Components/Navbar/NavbarHome";
+import { post, handleChange } from "../Features/FeatureLogin/LoginSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [login, setLogin] = useState({
-    email: "",
-    password: "",
-  });
+  const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:4000/login", {
-        email: login.email,
-        password: login.password,
-      })
-      .then((res) => {
-        localStorage.setItem("token", res.data.accessToken);
-        localStorage.setItem("id", res.data.user.id);
-        localStorage.setItem("email", res.data.user.email);
-        navigate("/app");
-      })
-      .catch((error) => {
-        alert(error.response.data);
-        // return Promise.reject(error);
-      });
+    dispatch(post());
   };
 
   const change = (e) => {
-    setLogin({
-      ...login,
-      [e.target.name]: e.target.value,
-    });
+    const name = e.target.name;
+    const value = e.target.value;
+    dispatch(handleChange({ name, value }));
   };
 
   return (
