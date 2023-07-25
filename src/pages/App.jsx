@@ -7,33 +7,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoSignOut } from "react-icons/go";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks } from "../Features/FeatureTask/TaskSlice";
 
 const App = () => {
-  const [loading, setLoading] = useState(false);
-  const [tasks, setTasks] = useState([]);
+  // const loading = useSelector((state) => state.task.loading);
+  const dispatch = useDispatch()
+  const tasks = useSelector((state) => state.task.tasks);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
     if (!window.localStorage.getItem("token")) {
       alert("You are not logged in. Please login first");
       navigate("/login");
       return;
     }
-    axios
-      .get("http://localhost:4000/todos", {
-        headers: {
-          Authorization: "Bearer " + window.localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        setTasks(res.data);
-      })
-      .catch(() => {
-        alert("You don't have a task to show, so add a task first");
-      });
-    setLoading(false);
-  }, [navigate]);
+    dispatch(fetchTasks())
+  }, [dispatch, navigate]);
 
   const addTask = (task) => {
     const userId = Number(window.localStorage.getItem("id"));
@@ -57,7 +48,7 @@ const App = () => {
         }
       )
       .then((res) => {
-        setTasks([...tasks, res.data]);
+        // setTasks([...tasks, res.data]);
       });
   };
 
@@ -73,27 +64,29 @@ const App = () => {
         },
       })
       .then(() => {
-        setTasks(tasks.filter((tasks) => tasks.id !== task.id));
+        // setTasks(tasks.filter((tasks) => tasks.id !== task.id));
       });
   };
 
-  const logout = () =>{
-    localStorage.clear()
-    navigate("/")
-  }
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   return (
     <>
       <Navbar />
       <Table onAdd={addTask} />
       <State ok={tasks} />
-      {loading ? (
+      {/* {loading ? (
         <Loading />
-      ) : tasks.length > 0 ? (
+      ) :  */}
+      {tasks.length > 0 ? (
         <Tasks tasks={tasks} onDelete={deleteTask} />
       ) : (
         <div className="container text-danger h3">No tasks to show !</div>
-      )}
+      )
+      }
       <GoSignOut
         style={{
           color: "red",
