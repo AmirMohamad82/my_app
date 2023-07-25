@@ -1,14 +1,20 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import NavbarHome from "../Components/Navbar/NavbarHome";
-import { post, handleChange } from "../Features/FeatureLogin/LoginSlice";
-import { useDispatch } from "react-redux";
+import { fetchLogin, handleChange } from "../Features/FeatureLogin/LoginSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const email = useSelector((state) => state.login.email);
+  const password = useSelector((state) => state.login.password);
+  const success = useSelector((state) => state.login.success);
+  const navigate = useNavigate();
+  console.log(email, password);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(post());
+    dispatch(fetchLogin({ email, password }));
+    success && navigate("/app");
   };
 
   const change = (e) => {
