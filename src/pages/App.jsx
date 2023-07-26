@@ -3,19 +3,17 @@ import Table from "../Components/Table/Table";
 import Tasks from "../Components/TaskCard/Tasks";
 import State from "../Components/Table/State";
 import Loading from "../Components/Loading/Loading";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoSignOut } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { fetchTasks } from "../Features/FeatureTask/TaskSlice";
 
 const App = () => {
-  // const loading = useSelector((state) => state.task.loading);
-  const dispatch = useDispatch()
+  const loading = useSelector((state) => state.task.loading);
   const tasks = useSelector((state) => state.task.tasks);
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!window.localStorage.getItem("token")) {
@@ -23,50 +21,9 @@ const App = () => {
       navigate("/login");
       return;
     }
-    dispatch(fetchTasks())
+    dispatch(fetchTasks());
   }, [dispatch, navigate]);
 
-  const addTask = (task) => {
-    const userId = Number(window.localStorage.getItem("id"));
-    const owner = userId;
-    const newTask = { userId, owner, ...task };
-    axios
-      .post(
-        "http://localhost:4000/todos",
-        {
-          userId: newTask.userId,
-          owner: newTask.owner,
-          title: newTask.title,
-          description: newTask.description,
-          date: newTask.unixTime,
-          done: newTask.done,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
-          },
-        }
-      )
-      .then((res) => {
-        // setTasks([...tasks, res.data]);
-      });
-  };
-
-  const deleteTask = (task) => {
-    if (Number(window.localStorage.getItem("id")) !== task.userId) {
-      alert("This task is not for you");
-      return;
-    }
-    axios
-      .delete(`http://localhost:4000/todos/${task.id}`, {
-        headers: {
-          Authorization: "Bearer " + window.localStorage.getItem("token"),
-        },
-      })
-      .then(() => {
-        // setTasks(tasks.filter((tasks) => tasks.id !== task.id));
-      });
-  };
 
   const logout = () => {
     localStorage.clear();
@@ -76,17 +33,9 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <Table onAdd={addTask} />
-      <State ok={tasks} />
-      {/* {loading ? (
-        <Loading />
-      ) :  */}
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} />
-      ) : (
-        <div className="container text-danger h3">No tasks to show !</div>
-      )
-      }
+      <Table />
+      <State />
+      {loading ? <Loading /> : <Tasks tasks={tasks} />}
       <GoSignOut
         style={{
           color: "red",

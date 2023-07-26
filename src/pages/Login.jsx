@@ -9,7 +9,6 @@ const Login = () => {
   const password = useSelector((state) => state.login.password);
   const success = useSelector((state) => state.login.success);
   const navigate = useNavigate();
-  console.log(email, password);
 
   const onSubmit = (e) => {
     e.preventDefault();

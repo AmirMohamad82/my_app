@@ -1,6 +1,6 @@
 import NewTask from "../TaskCard/NewTask";
 
-const Table = ({ onAdd }) => {
+const Table = () => {
   return (
     <>
       <div className="row container">
@@ -32,7 +32,7 @@ const Table = ({ onAdd }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <NewTask onAdd={onAdd} />
+              <NewTask />
             </div>
           </div>
         </div>

@@ -4,9 +4,15 @@ import i3 from "./../../Images/images (1).jpg";
 import i4 from "./../../Images/images (2).jpg";
 import i1 from "./../../Images/download.jpg";
 import Date from "../ConvertDate/Date";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  DeleteTask,
+  fetchTasks,
+  updateTask,
+} from "../../Features/FeatureTask/TaskSlice";
 
-const Task = ({ task, onDelete }) => {
+const Task = ({ task }) => {
+  const dispatch = useDispatch();
   const [state, setState] = useState(task.done);
   let dv = "dv";
   let Class = "text-dark ";
@@ -24,23 +30,25 @@ const Task = ({ task, onDelete }) => {
     );
   };
 
+  const deleteTask = () => {
+    if (Number(window.localStorage.getItem("id")) !== task.userId) {
+      alert("This task is not for you");
+      return;
+    }
+    dispatch(DeleteTask(task));
+    dispatch(fetchTasks());
+  };
+
   const checked = () => {
     if (Number(window.localStorage.getItem("id")) !== task.userId) {
       alert("This task is not for you");
       return;
     }
-    task.done = !task.done;
-    axios.patch(
-      `http://localhost:4000/todos/${task.id}`,
-      {
-        done: task.done,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + window.localStorage.getItem("token"),
-        },
-      }
-    );
+    task = {
+      ...task,
+      done: !task.done,
+    };
+    dispatch(updateTask(task));
     setState(!state);
   };
 
@@ -72,7 +80,7 @@ const Task = ({ task, onDelete }) => {
                   marginRight: "10px",
                   float: "right",
                 }}
-                onClick={() => onDelete(task)}
+                onClick={deleteTask}
               />
               {state ? (
                 <input

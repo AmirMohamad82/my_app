@@ -1,6 +1,6 @@
 // import { useState } from "react";
 
-const State = ({ ok }) => {
+const State = () => {
   // const [all, setAll] = useState(0)
   // const [open, setOpen] = useState(0)
   // const [close, setClose] = useState(0)

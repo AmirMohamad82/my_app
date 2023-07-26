@@ -1,10 +1,18 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AddTask, fetchTasks } from "../../Features/FeatureTask/TaskSlice";
 
-const NewTask = ({ onAdd }) => {
+const NewTask = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const done = false;
+  const dispatch = useDispatch();
+
+  const addTask = (task) => {
+    dispatch(AddTask(task));
+    dispatch(fetchTasks());
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +23,7 @@ const NewTask = ({ onAdd }) => {
     }
     const time = new Date(date);
     const unixTime = Math.floor(time.getTime() / 1000);
-    onAdd({ title, description, unixTime, done });
+    addTask({ title, description, unixTime, done });
 
     setTitle("");
     setDescription("");
