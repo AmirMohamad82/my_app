@@ -1,7 +1,7 @@
 const Navbar = () => {
   const list = ["Message", "Today's Task", "Last Activity"];
   return (
-    <nav className="navbar navbar-default">
+    <nav className="navbar navbar-default col-sm-auto">
       <ul className="nav nav-tabs">
         {list.map((i, idx) => {
           return (

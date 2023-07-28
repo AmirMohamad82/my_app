@@ -14,7 +14,8 @@ export const AddTask = createAsyncThunk("task/addTask", async (task) => {
   const userId = Number(window.localStorage.getItem("id"));
   const owner = userId;
   const newTask = { userId, owner, ...task };
-  const response = await axios.post(
+  // const response =
+  await axios.post(
     "http://localhost:4000/todos",
     {
       userId: newTask.userId,
@@ -30,7 +31,6 @@ export const AddTask = createAsyncThunk("task/addTask", async (task) => {
       },
     }
   );
-  return response.data;
 });
 
 export const DeleteTask = createAsyncThunk("task/deleteTask", async (task) => {

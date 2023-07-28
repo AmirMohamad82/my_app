@@ -7,13 +7,22 @@ const Login = () => {
   const dispatch = useDispatch();
   const email = useSelector((state) => state.login.email);
   const password = useSelector((state) => state.login.password);
-  const success = useSelector((state) => state.login.success);
   const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(fetchLogin({ email, password }));
-    success && navigate("/app");
+    dispatch(
+      fetchLogin({
+        email,
+        password,
+        success: () => {
+          navigate("/app");
+        },
+        fail: (error) => {
+          alert(error);
+        },
+      })
+    );
   };
 
   const change = (e) => {

@@ -16,14 +16,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!window.localStorage.getItem("token")) {
-      alert("You are not logged in. Please login first");
-      navigate("/login");
-      return;
-    }
     dispatch(fetchTasks());
   }, [dispatch, navigate]);
-
 
   const logout = () => {
     localStorage.clear();

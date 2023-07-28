@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 import App from "./Pages/App";
 import Login from "./Pages/Login";
 import Layout from "./Pages/Layout";
@@ -9,6 +9,7 @@ import ErrorNotFound from "./Pages/ErrorNotFound";
 import Store from "./Store/Store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Style/index.css";
+import RouteGuard from "./Components/RouteGuard/RouteGuard";
 
 const Index = () => {
   return (
@@ -20,7 +21,14 @@ const Index = () => {
             <Route path="/" element={<Layout />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/app" element={<App />} />
+            <Route
+              path="/app"
+              element={
+                <RouteGuard>
+                  <App />
+                </RouteGuard>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </div>

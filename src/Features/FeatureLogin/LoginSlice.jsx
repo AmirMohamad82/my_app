@@ -4,11 +4,20 @@ import axios from "axios";
 export const fetchLogin = createAsyncThunk(
   "login/fetchLogin",
   async (state) => {
-    const response = await axios.post("http://localhost:4000/login", {
-      email: state.email,
-      password: state.password,
-    });
-    return response.data;
+    try {
+      const response = await axios.post("http://localhost:4000/login", {
+        email: state.email,
+        password: state.password,
+      });
+      localStorage.setItem("token", response.data?.accessToken);
+      localStorage.setItem("id", response.data.user?.id);
+      localStorage.setItem("email", response.data.user?.email);
+      state.success();
+      return;
+    } catch (error) {
+      state.fail(error.response.data);
+      return error;
+    }
   }
 );
 
@@ -17,7 +26,6 @@ export const loginSlice = createSlice({
   initialState: {
     email: "",
     password: "",
-    success: false,
   },
 
   reducers: {
@@ -26,18 +34,6 @@ export const loginSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchLogin.fulfilled, (state, action) => {
-        localStorage.setItem("token", action.payload.accessToken);
-        localStorage.setItem("id", action.payload.user.id);
-        localStorage.setItem("email", action.payload.user.email);
-        state.success = true
-      })
-      .addCase(fetchLogin.rejected, (state, action) => {
-        alert(action);
-      });
-  },
 });
 
 export const { handleChange } = loginSlice.actions;
