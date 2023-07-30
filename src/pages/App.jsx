@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchTasks } from "../Features/FeatureTask/TaskSlice";
 import User from "../Components/Navbar/User";
+import Welcome from "../Components/Welcome/Welcome";
 
 const App = () => {
   const loading = useSelector((state) => state.task.loading);
@@ -17,10 +18,9 @@ const App = () => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
-  
-
   return (
     <>
+      <Welcome />
       <User />
       <Navbar />
       <Table />
