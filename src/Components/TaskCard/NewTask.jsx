@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AddTask, fetchTasks } from "../../Features/FeatureTask/TaskSlice";
+import { toast } from "react-toastify";
 
 const NewTask = () => {
   const [title, setTitle] = useState("");
@@ -18,16 +19,36 @@ const NewTask = () => {
     e.preventDefault();
 
     if (!title && !description && !date) {
-      alert("Please fill out the form correctly");
+      toast.warning("Please fill out the form correctly", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
+
     const time = new Date(date);
     const unixTime = Math.floor(time.getTime() / 1000);
+
     addTask({ title, description, unixTime, done });
 
     setTitle("");
     setDescription("");
     setDate("");
+
+    toast.success("Task added successfully", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   return (

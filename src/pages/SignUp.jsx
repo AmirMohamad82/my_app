@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
 import NavbarHome from "../Components/Navbar/NavbarHome";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [state, setState] = useState(false);
@@ -13,20 +14,26 @@ const SignUp = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("test");
+
     if (signup.password !== signup.repeatPassword) {
-      alert("The password entered does not match its repetition");
+      toast.error("The password entered does not match its repetition", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
+
     axios
       .post("http://localhost:4000/register", {
         email: signup.email,
         password: signup.password,
       })
       .then((res) => {
-        // localStorage.setItem("token", res.data.accessToken);
-        // localStorage.setItem("id", res.data.user.id);
-        // localStorage.setItem("email", res.data.user.email);
         setState(true);
         setSignup({
           email: "",
@@ -35,7 +42,15 @@ const SignUp = () => {
         });
       })
       .catch((error) => {
-        alert(error.response.data);
+        toast.error(error.response.data, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       });
   };
 
@@ -44,7 +59,6 @@ const SignUp = () => {
       ...signup,
       [e.target.name]: e.target.value,
     });
-    console.log(signup);
   };
 
   return (

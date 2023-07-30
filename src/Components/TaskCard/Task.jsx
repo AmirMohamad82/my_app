@@ -10,6 +10,7 @@ import {
   fetchTasks,
   updateTask,
 } from "../../Features/FeatureTask/TaskSlice";
+import { toast } from "react-toastify";
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();
@@ -32,16 +33,41 @@ const Task = ({ task }) => {
 
   const deleteTask = () => {
     if (Number(window.localStorage.getItem("id")) !== task.userId) {
-      alert("This task is not for you");
+      toast.error("This task is not for you", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     dispatch(DeleteTask(task));
     dispatch(fetchTasks());
+    toast.success("The task was successfully deleted", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const checked = () => {
     if (Number(window.localStorage.getItem("id")) !== task.userId) {
-      alert("This task is not for you");
+      toast.error("This task is not for you", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     task = {
@@ -50,6 +76,15 @@ const Task = ({ task }) => {
     };
     dispatch(updateTask(task));
     setState(!state);
+    toast.success("The status change was successful", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   return (
@@ -81,6 +116,7 @@ const Task = ({ task }) => {
                   float: "right",
                 }}
                 onClick={deleteTask}
+                title="Delete Task"
               />
               {state ? (
                 <input

@@ -1,12 +1,11 @@
-import { Navigate } from "react-router-dom";
+import GoBack from "./GoBack";
 
 const RouteGuard = ({ children }) => {
-  if (!window.localStorage.getItem("token")) {
-    alert("You are not logged in. Please login first");
-    return <Navigate to="/login" replace />;
-  } else {
-    return children;
-  }
+  return (
+    <>
+      {!window.localStorage.getItem("token") ? <GoBack /> : children}
+    </>
+  )
 };
 
 export default RouteGuard;

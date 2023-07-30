@@ -118,4 +118,12 @@ export const TaskSlice = createSlice({
   },
 });
 
+export const selectOpenTasks = (state) =>
+  state.task.tasks?.filter((task) => !task.done)?.length;
+
+export const selectClosedTasks = (state) =>
+  state.task.tasks?.filter((task) => task.done)?.length;
+
+export const selectTotalTasks = (state) => state.task.tasks?.length;
+
 export default TaskSlice.reducer;

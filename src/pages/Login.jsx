@@ -2,6 +2,7 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import NavbarHome from "../Components/Navbar/NavbarHome";
 import { fetchLogin, handleChange } from "../Features/FeatureLogin/LoginSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,15 @@ const Login = () => {
           navigate("/app");
         },
         fail: (error) => {
-          alert(error);
+          toast.error(error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         },
       })
     );

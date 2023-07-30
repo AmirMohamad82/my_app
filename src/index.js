@@ -10,10 +10,13 @@ import Store from "./Store/Store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Style/index.css";
 import RouteGuard from "./Components/RouteGuard/RouteGuard";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Index = () => {
   return (
     <Provider store={Store}>
+      <ToastContainer />
       <div className="main">
         <BrowserRouter>
           <Routes>
