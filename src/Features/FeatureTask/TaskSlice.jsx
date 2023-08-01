@@ -65,9 +65,14 @@ export const TaskSlice = createSlice({
   initialState: {
     loading: false,
     tasks: [],
+    filter: 0,
   },
 
-  reducers: {},
+  reducers: {
+    filter: (state, action) => {
+      state.filter = action.payload;
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -126,4 +131,5 @@ export const selectClosedTasks = (state) =>
 
 export const selectTotalTasks = (state) => state.task.tasks?.length;
 
+export const { filter } = TaskSlice.actions;
 export default TaskSlice.reducer;

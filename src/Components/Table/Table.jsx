@@ -1,4 +1,5 @@
 import NewTask from "../TaskCard/NewTask";
+import TodayDate from "../Today/TodayDate";
 
 const Table = () => {
   return (
@@ -7,7 +8,7 @@ const Table = () => {
         <div className="col-8 text">
           <p>
             Today's Task <br />
-            <span>Wednesday , 11 May</span>
+            <span><TodayDate /></span>
           </p>
         </div>
         <div className="col-4 r">
