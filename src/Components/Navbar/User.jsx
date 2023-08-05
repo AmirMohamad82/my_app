@@ -21,7 +21,7 @@ const User = () => {
         <nav className="navbar navbar-fixed-top">
           <div className="container-fluid">
             <div className="navbar-header">
-              <span className="navbar-brand">Task's Manager</span>
+              <span className="navbar-brand">Tasks Manager</span>
             </div>
             <div className="navbar-header fluid-end">
               <FaUserAlt

@@ -8,14 +8,29 @@ import { useEffect } from "react";
 import { fetchTasks } from "../Features/FeatureTask/TaskSlice";
 import User from "../Components/Navbar/User";
 import Welcome from "../Components/Welcome/Welcome";
+import { toast } from "react-toastify";
 
 const App = () => {
   const loading = useSelector((state) => state.task.loading);
-  const tasks = useSelector((state) => state.task.tasks);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTasks());
+    dispatch(
+      fetchTasks({
+        error: (error) => {
+          console.log("test");
+          toast.error(error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        },
+      })
+    );
   }, [dispatch]);
 
   return (
@@ -25,7 +40,7 @@ const App = () => {
       <Navbar />
       <Table />
       <State />
-      {loading ? <Loading /> : <Tasks tasks={tasks} />}
+      {loading ? <Loading /> : <Tasks />}
     </>
   );
 };

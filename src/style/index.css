@@ -11,11 +11,11 @@ body {
   margin-top: 20px;
   padding-bottom: 30px;
   padding-top: 20px;
-  width: 50%;
-  margin-left: 25%;
+  width: 60%;
+  margin-left: 20%;
 }
 
-.center{
+.center {
   display: flex;
   flex-direction: column;
   justify-content: center;

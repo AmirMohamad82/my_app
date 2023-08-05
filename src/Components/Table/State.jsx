@@ -41,7 +41,7 @@ const State = () => {
                 index === stateIndex ? "bg-primary" : "bg-gray"
               }`}
             >
-              {index === 3 ? 0 : number[index]}
+              {index === 3 ? 0 : number[index] || 0}
             </span>
             {index === 0 ? <span className="span"></span> : ""}
           </button>

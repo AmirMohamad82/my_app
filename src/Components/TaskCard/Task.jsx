@@ -14,11 +14,12 @@ import { toast } from "react-toastify";
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();
-  const [state, setState] = useState(task.done);
+  const [finish, setFinish] = useState(task.done);
   let dv = "dv";
   let Class = "text-dark ";
   let tasks = "task";
   const people = [`${i3}`, `${i1}`, `${i4}`];
+  const owner = Number(window.localStorage.getItem("id"));
 
   const img = (index, item) => {
     let max = 2;
@@ -31,7 +32,7 @@ const Task = ({ task }) => {
     );
   };
 
-  const deleteTask = () => {
+  const deleteTask = async () => {
     if (Number(window.localStorage.getItem("id")) !== task.userId) {
       toast.error("This task is not for you", {
         position: "top-right",
@@ -44,8 +45,23 @@ const Task = ({ task }) => {
       });
       return;
     }
-    dispatch(DeleteTask(task));
-    dispatch(fetchTasks());
+    await dispatch(DeleteTask(task));
+    await dispatch(
+      fetchTasks({
+        error: (error) => {
+          console.log("test");
+          toast.error(error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        },
+      })
+    );
     toast.success("The task was successfully deleted", {
       position: "top-right",
       autoClose: 5000,
@@ -75,7 +91,7 @@ const Task = ({ task }) => {
       done: !task.done,
     };
     dispatch(updateTask(task));
-    setState(!state);
+    setFinish(!finish);
     toast.success("The status change was successful", {
       position: "top-right",
       autoClose: 5000,
@@ -88,14 +104,14 @@ const Task = ({ task }) => {
   };
 
   return (
-    <div className={tasks + `${state ? " end" : ""}`}>
+    <div className={tasks + `${finish ? " end" : ""}`}>
       <section>
         <div className="row">
           <div className="col-7">
             <p>
               <span
                 className={
-                  Class + `${state ? "text-decoration-line-through" : ""}`
+                  Class + `${finish ? "text-decoration-line-through" : ""}`
                 }
               >
                 {task?.title}
@@ -105,7 +121,7 @@ const Task = ({ task }) => {
             </p>
           </div>
           <div className="col-5">
-            <div className="form-check ">
+            <div className="form-check">
               <BiTrash
                 style={{
                   color: "red",
@@ -118,22 +134,41 @@ const Task = ({ task }) => {
                 onClick={deleteTask}
                 title="Delete Task"
               />
-              {state ? (
-                <input
-                  className="form-check-input rounded-circle float-end me-4 mt-3"
-                  style={{ transform: "scale(1.5)", cursor: "pointer" }}
-                  type="checkbox"
-                  onClick={checked}
-                  checked
-                />
-              ) : (
-                <input
-                  className="form-check-input rounded-circle float-end me-4 mt-3"
-                  style={{ transform: "scale(1.5)", cursor: "pointer" }}
-                  type="checkbox"
-                  onClick={checked}
-                />
-              )}
+              <div onClick={checked} style={{ height: "40px" }}>
+                {finish ? (
+                  owner === task.id ? (
+                    <input
+                      className="form-check-input rounded-circle float-end me-4 mt-3"
+                      style={{ transform: "scale(1.5)", cursor: "pointer" }}
+                      type="checkbox"
+                      onClick={checked}
+                      checked
+                    />
+                  ) : (
+                    <input
+                      className="form-check-input rounded-circle float-end me-4 mt-3 dis"
+                      style={{ transform: "scale(1.5)", cursor: "pointer" }}
+                      type="checkbox"
+                      checked
+                      disabled
+                    />
+                  )
+                ) : owner === task.id ? (
+                  <input
+                    className="form-check-input rounded-circle float-end me-4 mt-3"
+                    style={{ transform: "scale(1.5)", cursor: "pointer" }}
+                    type="checkbox"
+                    onClick={checked}
+                  />
+                ) : (
+                  <input
+                    className="form-check-input rounded-circle float-end me-4 mt-3 dis"
+                    style={{ transform: "scale(1.5)", cursor: "pointer" }}
+                    type="checkbox"
+                    disabled
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>

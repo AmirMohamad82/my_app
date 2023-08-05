@@ -9,7 +9,7 @@ export const fetchLogin = createAsyncThunk(
         email: state.email,
         password: state.password,
       });
-      localStorage.setItem("token", response.data?.accessToken);
+      localStorage.setItem("token", `Bearer ${response.data?.accessToken}`);
       localStorage.setItem("id", response.data.user?.id);
       localStorage.setItem("email", response.data.user?.email);
       state.success();

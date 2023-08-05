@@ -1,20 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchTasks = createAsyncThunk("task/fetchTasks", async () => {
-  const response = await axios.get("http://localhost:4000/todos", {
-    headers: {
-      Authorization: "Bearer " + window.localStorage.getItem("token"),
-    },
-  });
-  return response.data;
-});
+export const fetchTasks = createAsyncThunk(
+  "task/fetchTasks",
+  async ({ error }) => {
+    try {
+      const response = await axios.get("http://localhost:4000/todos", {
+        headers: {
+          Authorization: window.localStorage.getItem("token"),
+        },
+      });
+      return response.data;
+    } catch (e) {
+      error(e.response.data);
+    }
+  }
+);
 
 export const AddTask = createAsyncThunk("task/addTask", async (task) => {
   const userId = Number(window.localStorage.getItem("id"));
   const owner = userId;
   const newTask = { userId, owner, ...task };
-  // const response =
   await axios.post(
     "http://localhost:4000/todos",
     {
@@ -27,7 +33,7 @@ export const AddTask = createAsyncThunk("task/addTask", async (task) => {
     },
     {
       headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        Authorization: window.localStorage.getItem("token"),
       },
     }
   );
@@ -38,7 +44,7 @@ export const DeleteTask = createAsyncThunk("task/deleteTask", async (task) => {
     `http://localhost:4000/todos/${task.id}`,
     {
       headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        Authorization: window.localStorage.getItem("token"),
       },
     }
   );
@@ -53,7 +59,7 @@ export const updateTask = createAsyncThunk("task/updateTask", async (task) => {
     },
     {
       headers: {
-        Authorization: "Bearer " + window.localStorage.getItem("token"),
+        Authorization: window.localStorage.getItem("token"),
       },
     }
   );
@@ -84,26 +90,19 @@ export const TaskSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchTasks.rejected, (state, action) => {
-        alert(action);
+        state.loading = false;
       })
       .addCase(AddTask.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(AddTask.fulfilled, (state, action) => {
-        state.tasks = action.payload;
         state.loading = false;
-      })
-      .addCase(AddTask.rejected, (state, action) => {
-        alert(action);
       })
       .addCase(DeleteTask.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(DeleteTask.fulfilled, (state, action) => {
         state.loading = false;
-      })
-      .addCase(DeleteTask.rejected, (state, action) => {
-        alert(action);
       })
       .addCase(updateTask.pending, (state, action) => {
         state.loading = true;
@@ -116,9 +115,6 @@ export const TaskSlice = createSlice({
           state.tasks[index] = action.payload;
         }
         state.loading = false;
-      })
-      .addCase(updateTask.rejected, (state, action) => {
-        alert(action);
       });
   },
 });

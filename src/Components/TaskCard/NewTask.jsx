@@ -10,9 +10,23 @@ const NewTask = () => {
   const done = false;
   const dispatch = useDispatch();
 
-  const addTask = (task) => {
-    dispatch(AddTask(task));
-    dispatch(fetchTasks());
+  const addTask = async (task) => {
+    await dispatch(AddTask(task));
+    await dispatch(
+      fetchTasks({
+        error: (error) => {
+          toast.error(error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        },
+      })
+    );
   };
 
   const onSubmit = (e) => {
