@@ -11,7 +11,7 @@ const Table = () => {
             <span><TodayDate /></span>
           </p>
         </div>
-        <div className="col-4 r">
+        <div className="col-4 m-auto float-end">
           <button
             className="btn btn-primary"
             data-bs-toggle="modal"

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { ClosedTasks, OpenTasks } from "../../Features/FeatureTask/TaskSlice";
 import Task from "./Task";
 
 const Tasks = () => {
   const tasks = useSelector((state) => state.task.tasks);
   const allTasks = tasks;
-  const openTasks = tasks?.filter((task) => !task.done);
-  const closedTasks = tasks?.filter((task) => task.done);
+  const openTasks = useSelector(OpenTasks);
+  const closedTasks = useSelector(ClosedTasks);
   const filter = useSelector((state) => state.task?.filter);
   const [Case, setCase] = useState(0);
 

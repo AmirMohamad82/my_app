@@ -6,8 +6,8 @@ export const fetchLogin = createAsyncThunk(
   async (state) => {
     try {
       const response = await axios.post("http://localhost:4000/login", {
-        email: state.email,
-        password: state.password,
+        email: state.User.email,
+        password: state.User.password,
       });
       localStorage.setItem("token", `Bearer ${response.data?.accessToken}`);
       localStorage.setItem("id", response.data.user?.id);
@@ -23,18 +23,8 @@ export const fetchLogin = createAsyncThunk(
 
 export const loginSlice = createSlice({
   name: "login",
-  initialState: {
-    email: "",
-    password: "",
-  },
+  initialState: {},
 
-  reducers: {
-    handleChange: (state, action) => {
-      state[action.payload.name] = action.payload.value;
-    },
-  },
-
+  reducers: {},
 });
-
-export const { handleChange } = loginSlice.actions;
 export default loginSlice.reducer;

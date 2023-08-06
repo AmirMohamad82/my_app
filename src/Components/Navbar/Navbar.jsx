@@ -1,3 +1,5 @@
+import style from "./Navbar.module.css";
+
 const Navbar = () => {
   const list = ["Message", "Today's Task", "Last Activity"];
   return (
@@ -9,7 +11,7 @@ const Navbar = () => {
               key={idx}
               className={idx === 1 ? "navbar-item active" : "navbar-item"}
             >
-              <button className="btn btn-default btn-lg">{i}</button>
+              <button className={`btn btn-default btn-lg ${style.res}`}>{i}</button>
             </li>
           );
         })}
@@ -17,5 +19,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;

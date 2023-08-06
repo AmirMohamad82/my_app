@@ -1,22 +1,24 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import NavbarHome from "../Components/Navbar/NavbarHome";
-import { fetchLogin, handleChange } from "../Features/FeatureLogin/LoginSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { fetchLogin } from "../Features/FeatureLogin/LoginSlice";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { HiEyeOff, HiEye } from "react-icons/hi";
 import { useEffect, useState } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const email = useSelector((state) => state.login.email);
-  const password = useSelector((state) => state.login.password);
+  const [User, setUser] = useState({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
   const [type, setType] = useState("password");
   const [eye, setEye] = useState(false);
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
-      navigate("/app")
+      navigate("/app");
     }
   }, [navigate]);
 
@@ -24,8 +26,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(
       fetchLogin({
-        email,
-        password,
+        User,
         success: () => {
           navigate("/app");
         },
@@ -43,11 +44,8 @@ const Login = () => {
       })
     );
   };
-
   const change = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    dispatch(handleChange({ name, value }));
+    setUser({ ...User, [e.target.name]: e.target.value });
   };
 
   const toggleEye = () => {

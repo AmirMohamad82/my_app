@@ -119,6 +119,12 @@ export const TaskSlice = createSlice({
   },
 });
 
+export const OpenTasks = (state) =>
+  state.task.tasks?.filter((task) => !task.done);
+
+export const ClosedTasks = (state) =>
+  state.task.tasks?.filter((task) => task.done);
+
 export const selectOpenTasks = (state) =>
   state.task.tasks?.filter((task) => !task.done)?.length;
 
