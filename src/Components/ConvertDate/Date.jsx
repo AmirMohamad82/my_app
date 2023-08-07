@@ -1,14 +1,35 @@
 const CurrentDate = (props) => {
   const date = (date) => {
-    const dateObj = new Date(date * 1000); // convert to milliseconds
-    const year = dateObj.getFullYear();
-    const month = ("0" + (dateObj.getMonth() + 1)).slice(-2); // add leading zero
-    const day = ("0" + dateObj.getDate()).slice(-2); // add leading zero
-    const hours = ("0" + dateObj.getHours()).slice(-2); // add leading zero
-    const minutes = ("0" + dateObj.getMinutes()).slice(-2); // add leading zero
-    const seconds = ("0" + dateObj.getSeconds()).slice(-2); // add leading zero
-    const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    return formattedTime;
+    const dateObj = new Date(date * 1000).getTime() / 1000;
+    const time = new Date(date * 1000);
+    const today = new Date().getTime() / 1000;
+    const difference = today - dateObj;
+    const futureDate = dateObj - today;
+
+    if (difference < 60 && difference > -1) {
+      if (difference === 0) {
+        return "Right now";
+      }
+      return `${difference} seconds ago , ${time.toDateString()}`;
+    } else if (difference < 3600 && difference > 59) {
+      return `${Math.floor(difference / 60)} minutes ago , ${time.toDateString()}`;
+    } else if (difference < 86400 && difference > 3599) {
+      return `${Math.floor(difference / 3600)} hours ago , ${time.toDateString()}`;
+    } else if (difference < 2620800 && difference > 86399) {
+      if (difference / 86400 < 2) {
+        return `Yesterday , ${time.toDateString()}`;
+      }
+      return `${Math.floor(difference / 86400)} days ago , ${time.toDateString()}`;
+    } else if (difference < 31449600 && difference > 2620799) {
+      return `${Math.floor(difference / 2620800)} months ago , ${time.toDateString()}`;
+    } else if (difference > 31449599) {
+      return `${Math.floor(difference / 31449600)} years ago , ${time.toDateString()}`;
+    }
+
+    if (futureDate / 86400 <= 2) {
+      return `Tomorrow , ${time.toDateString()}`;
+    }
+    return `in ${Math.floor(futureDate / (60 * 60 * 24))} day , ${time.toDateString()}`;
   };
 
   return date(props.date);

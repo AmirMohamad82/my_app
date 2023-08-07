@@ -33,7 +33,10 @@ const Task = ({ task }) => {
   };
 
   const deleteTask = async () => {
-    if (Number(window.localStorage.getItem("id")) !== task.userId) {
+    if (
+      window.localStorage.getItem("id") !==
+      window.localStorage.getItem("taskUserID")
+    ) {
       toast.error("This task is not for you", {
         position: "top-right",
         autoClose: 5000,
@@ -45,7 +48,7 @@ const Task = ({ task }) => {
       });
       return;
     }
-    await dispatch(DeleteTask(task));
+    await dispatch(DeleteTask(Number(window.localStorage.getItem("taskID"))));
     await dispatch(
       fetchTasks({
         error: (error) => {
@@ -131,7 +134,12 @@ const Task = ({ task }) => {
                   marginRight: "10px",
                   float: "right",
                 }}
-                onClick={deleteTask}
+                data-bs-toggle="modal"
+                data-bs-target="#delete"
+                onClick={() => {
+                  window.localStorage.setItem("taskUserID", task.userId);
+                  window.localStorage.setItem("taskID", task.id);
+                }}
                 title="Delete Task"
               />
               <div onClick={checked} style={{ height: "40px" }}>
@@ -188,6 +196,37 @@ const Task = ({ task }) => {
           </div>
         </div>
       </section>
+      <div className="modal fade" id="delete">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div className="modal-body text-center">
+              <p className="mb-3 h4">Are you sure you want to delete task?</p>
+              <button
+                type="button"
+                className="btn btn-danger col-3 m-2"
+                data-bs-dismiss="modal"
+              >
+                No
+              </button>
+              <button
+                type="button"
+                className="btn btn-success col-3 m-2"
+                data-bs-dismiss="modal"
+                onClick={deleteTask}
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -39,9 +39,9 @@ export const AddTask = createAsyncThunk("task/addTask", async (task) => {
   );
 });
 
-export const DeleteTask = createAsyncThunk("task/deleteTask", async (task) => {
+export const DeleteTask = createAsyncThunk("task/deleteTask", async (id) => {
   const response = await axios.delete(
-    `http://localhost:4000/todos/${task.id}`,
+    `http://localhost:4000/todos/${id}`,
     {
       headers: {
         Authorization: window.localStorage.getItem("token"),
