@@ -52,7 +52,6 @@ const Task = ({ task }) => {
     await dispatch(
       fetchTasks({
         error: (error) => {
-          console.log("test");
           toast.error(error, {
             position: "top-right",
             autoClose: 5000,
@@ -74,6 +73,12 @@ const Task = ({ task }) => {
       draggable: true,
       progress: undefined,
     });
+    const element = document.getElementById(
+      `${Number(window.localStorage.getItem("taskID")) - 1}`
+    );
+    const mul = Number(window.localStorage.getItem("taskID")) - 3;
+    const coordinates = element.getBoundingClientRect();
+    window.scrollTo(coordinates.left, coordinates.top + mul * 130);
   };
 
   const checked = () => {
@@ -104,10 +109,14 @@ const Task = ({ task }) => {
       draggable: true,
       progress: undefined,
     });
+    const element = document.getElementById(task.id);
+    const mul = task.id - 4;
+    const coordinates = element.getBoundingClientRect();
+    window.scrollTo(coordinates.left, coordinates.top + mul * 130);
   };
 
   return (
-    <div className={tasks + `${finish ? " end" : ""}`}>
+    <div className={tasks + `${finish ? " end" : ""}`} id={task.id}>
       <section>
         <div className="row">
           <div className="col-7">
