@@ -10,7 +10,7 @@ import {
   fetchTasks,
   updateTask,
 } from "../../Features/FeatureTask/TaskSlice";
-import { toast } from "react-toastify";
+import { Error, Success } from "../..";
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();
@@ -37,61 +37,28 @@ const Task = ({ task }) => {
       window.localStorage.getItem("id") !==
       window.localStorage.getItem("taskUserID")
     ) {
-      toast.error("This task is not for you", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      Error("This task is not for you");
       return;
     }
     await dispatch(DeleteTask(Number(window.localStorage.getItem("taskID"))));
     await dispatch(
       fetchTasks({
         error: (error) => {
-          toast.error(error, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          Error(error);
         },
       })
     );
-    toast.success("The task was successfully deleted", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    Success("The task was successfully deleted");
     const element = document.getElementById(
       `${Number(window.localStorage.getItem("taskID")) - 1}`
     );
-    const mul = Number(window.localStorage.getItem("taskID")) - 3;
-    const coordinates = element.getBoundingClientRect();
-    window.scrollTo(coordinates.left, coordinates.top + mul * 130);
+    const coordinate = element.offsetTop;
+    window.scrollTo(0, coordinate - 20);
   };
 
   const checked = () => {
     if (Number(window.localStorage.getItem("id")) !== task.userId) {
-      toast.error("This task is not for you", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      Error("This task is not for you");
       return;
     }
     task = {
@@ -100,19 +67,10 @@ const Task = ({ task }) => {
     };
     dispatch(updateTask(task));
     setFinish(!finish);
-    toast.success("The status change was successful", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    Success("The status change was successful");
     const element = document.getElementById(task.id);
-    const mul = task.id - 4;
-    const coordinates = element.getBoundingClientRect();
-    window.scrollTo(coordinates.left, coordinates.top + mul * 130);
+    const coordinate = element.offsetTop;
+    window.scrollTo(0, coordinate - 20);
   };
 
   return (

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PiEnvelopeBold } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { GoSignOut } from "react-icons/go";
+import { Success } from "../..";
 
 const User = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +12,7 @@ const User = () => {
   const toggleCollapse = () => setIsOpen(!isOpen);
 
   const logout = () => {
+    Success("You have successfully logged out")
     localStorage.clear();
     navigate("/");
   };

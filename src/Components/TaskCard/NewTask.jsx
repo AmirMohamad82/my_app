@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AddTask, fetchTasks } from "../../Features/FeatureTask/TaskSlice";
-import { toast } from "react-toastify";
+import { Error, Success, Warning } from "../..";
 
 const NewTask = () => {
   const [title, setTitle] = useState("");
@@ -15,33 +15,18 @@ const NewTask = () => {
     await dispatch(
       fetchTasks({
         error: (error) => {
-          toast.error(error, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          Error(error);
         },
       })
     );
+    window.scrollTo(0, document.body.scrollHeight);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     if (!title && !description && !date) {
-      toast.warning("Please fill out the form correctly", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      Warning("Please fill out the form correctly");
       return;
     }
 
@@ -54,15 +39,7 @@ const NewTask = () => {
     setDescription("");
     setDate("");
 
-    toast.success("Task added successfully", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    Success("Task added successfully");
   };
 
   return (
